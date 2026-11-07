@@ -7,7 +7,7 @@ chrome.runtime.onConnect.addListener(function (port) {
     console.log("Message received:", message);
     if (message.action === "mergeWindows") {
 
-      chrome.windows.getAll({ populate: true }, function (windows) {
+      chrome.windows.getAll({ populate: true, windowTypes: ["normal"] }, function (windows) {
         // Get the first window
         var firstWindow = windows[0];
 
@@ -22,9 +22,6 @@ chrome.runtime.onConnect.addListener(function (port) {
             // Move the tab to the first window
             chrome.tabs.move(tab.id, { windowId: firstWindow.id, index: -1 });
           }
-
-          // Close the window
-          chrome.windows.remove(window.id);
         }
       });
     }
